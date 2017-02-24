@@ -21,7 +21,8 @@ class App extends Component {
     constructor( props ) {
         super( props )
         this.state = {
-            weather: undefined
+            weather: undefined,
+            city: "Paris"
         }
     }
 
@@ -37,8 +38,11 @@ class App extends Component {
                 <div className="App-content">
                     <div className="center-align">
 
-                        {/* button onClick event calls the fetchWeather method */ }
+                        {/* user type the city name in an input */ }
+                        <input placeholder="City" type="text" value={ this.state.city } onChange={ this.handleChange }>
+                        </input>
 
+                        {/* button onClick event calls the fetchWeather method */ }
                         <button onClick={ this.fetchWeather } className="waves-effect waves-light btn">
                             Weather?
                         </button>
@@ -55,6 +59,11 @@ class App extends Component {
             </div>
         )
     }
+    handleChange = ( e ) => {
+        this.setState( {
+            city: e.target.value
+        })
+    }
 
 
     //method triggered by onClick event of the "Weather?" button
@@ -66,8 +75,8 @@ class App extends Component {
         try {
             const weather = await get( ENDPOINTS.WEATHER_API_URL, {
                 //YOU NEED TO PROVIDE YOUR API KEY HERE
-                key: undefined,
-                q: 'Paris'
+                key: '97984f690abe4fa4ab7132035172402',
+                q: this.state.city
             })
 
             /* React state DOCUMENTATION : https://facebook.github.io/react/docs/lifting-state-up.html */
